@@ -1,0 +1,83 @@
+<aura:component controller="FullContactAccountDetailsContrl"  implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" Access="global" >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="photo" type="string"/>
+    <aura:attribute name="details" type="object"/>
+    <aura:attribute name="err" type="string"/>
+    
+    <div id="content">
+        <div class="slds">
+            <center>
+                <aura:if isTrue="{!v.err !=''}">
+                    {!v.err}
+                    <aura:set attribute="else">
+                        
+                        
+                        <table class="slds-table slds-table--bordered" style="table-layout: fixed; width: 100%;   ">
+                            <tr>
+                                <td><img src="{!v.details.logo}" width="110" height="110" style=" "></img></td>
+                                <td> <b>{!v.details.organization.name}</b></td>
+                            </tr>
+                            <tr>
+                                <td>Employee:</td>
+                                <td>{!v.details.organization.approxEmployees}</td>
+                            </tr>
+                            <tr>
+                                <td>Founded</td>
+                                <td>{!v.details.organization.founded}</td>
+                            </tr>
+                            <tr>
+                                <td>Overview</td>
+                                <td id="overview">
+                                    
+                                    {!v.details.organization.overview}
+                                    
+                                </td>    
+                            </tr>
+                            <aura:iteration items="{!v.details.organization.contactInfo.phoneNumbers}" var="c">
+                                <tr>
+                                    <td>Phone:</td>
+                                    <td>{!c.number}</td>
+                                </tr>
+                            </aura:iteration>
+                            <aura:iteration items="{!v.details.organization.contactInfo.emailAddresses}" var="c">
+                                <tr>
+                                    <td>Email:</td>
+                                    <td>{!c.value}</td>
+                                </tr>
+                            </aura:iteration>
+                            <aura:iteration items="{!v.details.socialProfiles}" var="s">
+                                <tr>
+                                    <td >{!s.typeName}</td>
+                                    <td>  <a href="{!s.url}" target="_blank" > {!s.typeName} Profile</a>
+                                        
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                            
+                            <tr>
+                                <td>Addresses:</td>
+                                <td id="Addresses">{!v.details.organization.contactInfo.addresses[0].addressLine1},
+                                    {!v.details.organization.contactInfo.addresses[0].addressLine2},
+                                    {!v.details.organization.contactInfo.addresses[0].locality},
+                                    {!v.details.organization.contactInfo.addresses[0].country.name},
+                                    {!v.details.organization.contactInfo.addresses[0].postalCode}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ranking: </td>
+                                <td>{!v.details.traffic.ranking[0].rank} ({!v.details.traffic.ranking[0].locale})</td>
+                            </tr>
+                            
+                            
+                        </table>
+                    </aura:set>
+                </aura:if>
+                
+            </center>
+            
+        </div>
+    </div>
+    
+</aura:component>
