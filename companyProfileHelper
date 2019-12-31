@@ -1,0 +1,22 @@
+({
+    fetchCompanyProfile : function(component,event,helper) {
+        var action=component.get("c.getAccountDetails");
+        action.setParams({
+            "rec_id": component.get("v.recordId")
+        });
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                
+                if(response.getReturnValue() == 'Enter website to see the company profile'){
+                    component.set("v.err",'Enter website to see the company profile');
+                }else{
+                    var data = JSON.parse(response.getReturnValue());
+                    component.set("v.details",data);
+                    component.set("v.err",'');
+                } 
+            }
+        });
+        $A.enqueueAction(action);
+    }
+})
