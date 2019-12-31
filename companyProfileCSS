@@ -1,0 +1,12 @@
+.THIS #overview{
+    
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.THIS #Addresses{
+    
+    word-wrap: break-word;
+    white-space: inherit;
+   
+}
