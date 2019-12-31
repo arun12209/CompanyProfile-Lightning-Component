@@ -1,0 +1,40 @@
+public class FullContactAccountDetailsContrl {
+    
+    @AuraEnabled
+    public static string getAccountDetails(string rec_id){
+        String msg = '';
+        try{
+            Account acc=[select Website from account where id=:rec_id ];
+            system.debug('domain : '+ acc.Website);
+            if(acc.Website != null && acc.Website != ''){
+                
+                string baseURL = 'https://api.fullcontact.com/v2/company/lookup.json?domain';
+                string apikey = '9e340d31aXXXXXXX'; // Your API Key (Register on https://dashboard.fullcontact.com/register to get API Key)
+                string url = baseURL +'='+ acc.Website + '&apiKey=' + apikey;
+                HttpRequest req = new HttpRequest();
+                Http http = new Http();
+                req.setMethod('GET');
+                req.setEndpoint(url);
+                HttpResponse res = http.send(req);
+                
+                system.debug('response status code: '+res.getStatusCode());
+                system.debug(''+res.getBody());
+                string body=res.getBody();
+                system.debug('Retured Body: '+body);
+                if (res.getStatusCode() == 200) {
+                    return res.getBody(); 
+                }
+                else{
+                    return null;
+                }
+            }
+            else{
+                return 'Enter website to see the company profile';
+            }
+        }
+        catch(Exception e){
+            return null;
+        }
+    }
+    
+}
